@@ -27,5 +27,9 @@ public class UserDao {
         .uniqueResult();
   }
 
+  public void create(User user) {
+    getSession().save(user);
+  }
+
 
 }

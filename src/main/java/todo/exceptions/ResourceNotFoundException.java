@@ -1,4 +1,4 @@
-package todo.excaptions;
+package todo.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
