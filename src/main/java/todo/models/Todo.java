@@ -29,6 +29,11 @@ public class Todo {
 
     public Todo() { }
 
+    public Todo(User user, String text) {
+        this.user = user;
+        this.text = text;
+        this.resolved = false;
+    }
 
     public long getId() {
         return id;
