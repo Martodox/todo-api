@@ -30,6 +30,19 @@ public class TodoDao {
         return todo;
     }
 
+    public Todo createWithRelation(User user, String text) {
+
+        Todo todo = new Todo(user, text);
+
+        user.addTodo(todo);
+
+        getSession().save(todo);
+        getSession().merge(user);
+
+        return todo;
+
+    }
+
     public Todo update(Todo todo) {
         getSession().update(todo);
         return todo;

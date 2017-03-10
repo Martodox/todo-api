@@ -54,7 +54,7 @@ public class UserController {
   }
 
   @RequestMapping(value = "/", method= RequestMethod.POST)
-  public @ResponseBody User create(@RequestParam @ApiParam(value  = "User name") String name) {
+  public @ResponseBody User create(@RequestBody @ApiParam(value  = "User name") String name) {
     User user = new User(name);
 
      _userDao.create(user);

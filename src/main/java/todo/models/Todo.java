@@ -1,5 +1,6 @@
 package todo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Todo {
     @NotNull
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="owner", referencedColumnName="id")
+    @JsonBackReference
     private User user;
 
     @NotNull
