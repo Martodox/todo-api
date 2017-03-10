@@ -36,8 +36,13 @@ public class TodoController {
         return user;
     }
 
-    private Todo setResolution(Long id, boolean resolved) {
+    private Todo setResolution(User user, Long id, boolean resolved) {
         Todo todo = _todoDao.find(id);
+
+        if (user.getId() != todo.getUser().getId()) {
+            throw new AccessForbidden();
+        }
+
 
         todo.setResolved(resolved);
 
@@ -49,35 +54,35 @@ public class TodoController {
     @RequestMapping(value = "/mark-not-done", method = RequestMethod.POST)
     @ApiImplicitParam()
     public @ResponseBody
-    Todo markNotDone(@RequestHeader("api_key") @ApiParam(hidden = true) String apiKey, @RequestParam @ApiParam(value  = "Todo id", required = true) Long id) {
+    Todo markNotDone(@RequestHeader("api_key") @ApiParam(hidden = true) String apiKey, @RequestBody @ApiParam(value  = "Todo id", required = true) Long id) {
         if (apiKey.length() == 0) {
             throw new AccessForbidden();
         }
 
         User user = this.getUser(apiKey);
 
-        return this.setResolution(id, false);
+        return this.setResolution(user, id, false);
 
     }
 
     @RequestMapping(value = "/mark-done", method = RequestMethod.POST)
     @ApiImplicitParam()
     public @ResponseBody
-    Todo markDone(@RequestHeader("api_key") @ApiParam(hidden = true) String apiKey, @RequestParam @ApiParam(value  = "Todo id", required = true) Long id) {
+    Todo markDone(@RequestHeader("api_key") @ApiParam(hidden = true) String apiKey, @RequestBody @ApiParam(value  = "Todo id", required = true) Long id) {
         if (apiKey.length() == 0) {
             throw new AccessForbidden();
         }
 
         User user = this.getUser(apiKey);
 
-        return this.setResolution(id, true);
+        return this.setResolution(user, id, true);
 
     }
 
     @RequestMapping(value="/", method = RequestMethod.POST)
     @ApiImplicitParam()
     public @ResponseBody
-    Todo create(@RequestHeader("api_key") @ApiParam(hidden = true) String apiKey, @RequestParam @ApiParam(value  = "Todo content", required = true) String text) {
+    Todo create(@RequestHeader("api_key") @ApiParam(hidden = true) String apiKey, @RequestBody @ApiParam(value  = "Todo content", required = true) String text) {
 
         if (apiKey.length() == 0) {
             throw new AccessForbidden();
@@ -85,7 +90,7 @@ public class TodoController {
 
         User user = this.getUser(apiKey);
 
-        return _todoDao.create(new Todo(user, text));
+        return _todoDao.createWithRelation(user, text);
 
 
     }

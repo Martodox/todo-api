@@ -1,5 +1,6 @@
 package todo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import todo.utils.TokenGenerator;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class User {
   private String name;
 
   @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+  @JsonBackReference
   private List<Todo> todos = new ArrayList<>();
 
   public User() { }
@@ -50,6 +52,11 @@ public class User {
   }
 
   public List<Todo> getTodos() {
+    return todos;
+  }
+
+  public List<Todo> addTodo(Todo todo) {
+    todos.add(todo);
     return todos;
   }
 
