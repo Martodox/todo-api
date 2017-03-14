@@ -43,7 +43,7 @@ public class UserController {
 
   }
 
-  @RequestMapping(value="/get-todos", method= RequestMethod.GET)
+  @RequestMapping(value="/todos", method= RequestMethod.GET)
   @ApiImplicitParam()
   public @ResponseBody List<Todo> getTodos(@RequestHeader("api_key") @ApiParam(hidden = true) String apiKey) {
 
